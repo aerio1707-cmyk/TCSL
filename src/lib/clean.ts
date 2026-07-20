@@ -2,6 +2,15 @@
 export function cleanValue(raw: unknown): string {
   if (raw === null || raw === undefined) return "";
   let v = String(raw).trim();
+
+  // 部分報表是由多段 CSV 拼接而成，拼接處殘留了額外的 BOM，導致該欄位開頭的
+  // CSV 引號沒有被解析器辨識為引用符號，而是留成字面上的雙引號字元
+  // （例如表頭欄位變成字面文字 "controller_id" 而非 controller_id）。
+  // 這裡把整串被一對字面雙引號包住的殘留清乾淨。
+  if (v.length >= 2 && v.startsWith('"') && v.endsWith('"')) {
+    v = v.slice(1, -1).trim();
+  }
+
   const formulaMatch = v.match(/^="?(.*?)"?$/);
   if (formulaMatch) v = formulaMatch[1];
   return v.trim();

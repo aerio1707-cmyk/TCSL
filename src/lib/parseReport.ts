@@ -23,7 +23,9 @@ function findHeaderRow(
   ws: XLSX.WorkSheet,
   range: XLSX.Range
 ): { rowIndex: number; colIndex: Record<string, number> } | null {
-  const searchLimit = Math.min(range.e.r, range.s.r + 4);
+  // 正式報表在真正的欄位表頭前可能有數十行統計摘要（date:、total_streetlights_count: 等），
+  // 放寬到 50 列以涵蓋這類前導內容；找到就立即回傳，不影響效能。
+  const searchLimit = Math.min(range.e.r, range.s.r + 49);
   for (let r = range.s.r; r <= searchLimit; r++) {
     const colIndex: Record<string, number> = {};
     for (let c = range.s.c; c <= range.e.c; c++) {

@@ -56,20 +56,33 @@ function writeXlsx(dateKey, folder, filename) {
   XLSX.writeFile(wb, join(folder, filename));
 }
 
+// 正式報表其實是「摘要區塊」與「明細區塊」兩段各自匯出的 CSV 拼接而成，
+// 每段各自帶有 UTF-8 BOM；明細表頭列前的第二個 BOM 正是導致表頭解析失敗的真實成因，
+// 這裡如實重現這個結構，避免測試資料失真而讓 bug 再次被掩蓋。
 function writeCsv(dateKey, folder, filename) {
   const rows = poleRows(dateKey);
   const dataLines = rows.map(
     ([controllerId, polesId, district, vendor, note, t]) =>
       `"${controllerId}","=""${polesId}""","${district}","${vendor}","${note}","${t}"`
   );
-  const finalLines = [
+  const BOM = "﻿";
+  const summaryLines = [
     `date:${dateKey}`,
     "total_streetlights_count:2",
-    HEADER.map((h) => `"${h}"`).join(","),
-    ...dataLines,
+    "total_average_connection_rate:99%",
+    "threej_streetlights_count:0",
+    "threej_average_connection_rate:0%",
+    "delta_streetlights_count:0",
+    "delta_average_connection_rate:0%",
+    "liteon_streetlights_count:2",
+    "liteon_average_connection_rate:99%",
+    "oring_streetlights_count:0",
+    "oring_average_connection_rate:0%",
   ];
+  const detailLines = [HEADER.map((h) => `"${h}"`).join(","), ...dataLines];
+  const finalContent = `${BOM}${summaryLines.join("\n")}\n${BOM}${detailLines.join("\n")}`;
   mkdirSync(folder, { recursive: true });
-  writeFileSync(join(folder, filename), finalLines.join("\n"), "utf-8");
+  writeFileSync(join(folder, filename), finalContent, "utf-8");
 }
 
 const juneDir = join(ROOT, "202606");
