@@ -65,13 +65,11 @@ export function InputPanel({
           <ul className="input-help-list">
             <li>
               <span className="input-help-name">支援格式</span>
-              <span className="input-help-rule">.csv／.xlsx 報表檔案，可放在多層子資料夾內，會自動遞迴掃描</span>
+              <span className="input-help-rule">.csv 報表檔案，可放在多層子資料夾內，會自動遞迴掃描</span>
             </li>
             <li>
               <span className="input-help-name">檔名規則</span>
-              <span className="input-help-rule">
-                EssReport_YYYYMMDD.csv，或「MMDD DailyReport.xlsx」（需搭配上層 YYYYMM 命名的資料夾判斷年月）
-              </span>
+              <span className="input-help-rule">EssReport_YYYYMMDD.csv（限定這個檔名格式）</span>
             </li>
             <li>
               <span className="input-help-name">日期判斷</span>
