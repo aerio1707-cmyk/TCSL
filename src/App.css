@@ -462,6 +462,15 @@
   flex: none;
 }
 
+.chart-grid-center {
+  justify-content: center;
+}
+.chart-compact {
+  flex: 0 1 260px;
+  max-width: 260px;
+  min-width: 220px;
+}
+
 .tab-bar-sub {
   margin-top: 0;
 }
@@ -485,14 +494,6 @@
   font-weight: 600;
   color: var(--text-h);
   border-bottom: none;
-}
-.appendix-table td {
-  font-size: 12px;
-  vertical-align: top;
-}
-.appendix-table td:first-child {
-  font-weight: 500;
-  color: var(--text-h);
 }
 .detail-tables .timeline-header {
   flex-wrap: wrap;

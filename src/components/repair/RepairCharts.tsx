@@ -107,7 +107,7 @@ export function RepairSourcePie({ summary }: { summary: SourceSummary }) {
     { key: "other", label: "其餘通報來源", value: summary.otherSourceCount, color: "var(--pie-b)" },
   ];
   return (
-    <figure className="audit-chart">
+    <figure className="audit-chart chart-compact">
       <figcaption>通報來源結構占比</figcaption>
       <PieChart data={data} total={summary.totalCount} centerLabel="全部工單" />
       <Legend data={data} total={summary.totalCount} />
@@ -125,8 +125,39 @@ const CATEGORY_COLORS: Record<string, string> = {
   其他: "var(--repair-cat-7)",
 };
 
-// 圖表2：工單處置方式資訊圖表（樞紐摘要表 + 圓餅圖，佔比以篩選後承商自主通報＋自主API筆數為分母）
-export function RepairCategoryChart({ summaries }: { summaries: CategorySummary[] }) {
+// 圖表2 前半：工單處置分類樞紐摘要表
+export function RepairCategoryTable({ summaries }: { summaries: CategorySummary[] }) {
+  return (
+    <div className="pivot-table-wrap">
+      <table className="log-table pivot-table">
+        <thead>
+          <tr>
+            <th>列標籤</th>
+            <th>計數 - 案件編號</th>
+          </tr>
+        </thead>
+        <tbody>
+          {summaries.map((s) => (
+            <tr key={s.category}>
+              <td>
+                <span className="legend-swatch" style={{ background: CATEGORY_COLORS[s.category] }} />
+                {s.category}
+              </td>
+              <td>{(s.ratio * 100).toFixed(2)}%</td>
+            </tr>
+          ))}
+          <tr className="pivot-total-row">
+            <td>總計</td>
+            <td>100.00%</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  );
+}
+
+// 圖表2 後半：類別占比圓餅圖（佔比以篩選後承商自主通報＋自主API筆數為分母）
+export function RepairCategoryPie({ summaries }: { summaries: CategorySummary[] }) {
   const total = summaries.reduce((sum, s) => sum + s.count, 0);
   const data: PieDatum[] = summaries.map((s) => ({
     key: s.category,
@@ -136,41 +167,10 @@ export function RepairCategoryChart({ summaries }: { summaries: CategorySummary[
   }));
 
   return (
-    <section className="panel">
-      <h2>工單處置方式資訊圖表</h2>
-      <div className="pivot-table-wrap">
-        <table className="log-table pivot-table">
-          <thead>
-            <tr>
-              <th>列標籤</th>
-              <th>計數 - 案件編號</th>
-            </tr>
-          </thead>
-          <tbody>
-            {summaries.map((s) => (
-              <tr key={s.category}>
-                <td>
-                  <span className="legend-swatch" style={{ background: CATEGORY_COLORS[s.category] }} />
-                  {s.category}
-                </td>
-                <td>{(s.ratio * 100).toFixed(2)}%</td>
-              </tr>
-            ))}
-            <tr className="pivot-total-row">
-              <td>總計</td>
-              <td>100.00%</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-
-      <div className="chart-grid">
-        <figure className="audit-chart">
-          <figcaption>類別占比（承商自主通報＋自主API，共 {total} 筆）</figcaption>
-          <PieChart data={data} total={total} centerLabel="篩選後工單" />
-          <Legend data={data} total={total} />
-        </figure>
-      </div>
-    </section>
+    <figure className="audit-chart chart-compact">
+      <figcaption>類別占比（共 {total} 筆）</figcaption>
+      <PieChart data={data} total={total} centerLabel="篩選後工單" />
+      <Legend data={data} total={total} />
+    </figure>
   );
 }

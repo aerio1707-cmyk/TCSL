@@ -30,17 +30,27 @@ export function exportRepairToExcel(
   }
   XLSX.utils.book_append_sheet(wb, XLSX.utils.aoa_to_sheet(unclassifiedSheetRows), "未歸類工單清單");
 
-  const appendixRows: (string | number)[][] = [
+  XLSX.utils.book_append_sheet(wb, XLSX.utils.aoa_to_sheet(buildAppendixRows()), "分類關鍵字對照表(附錄)");
+
+  XLSX.writeFile(wb, filename);
+}
+
+export function exportAppendixToExcel(filename = "分類關鍵字對照表(附錄).xlsx") {
+  const wb = XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(wb, XLSX.utils.aoa_to_sheet(buildAppendixRows()), "分類關鍵字對照表(附錄)");
+  XLSX.writeFile(wb, filename);
+}
+
+function buildAppendixRows(): (string | number)[][] {
+  const rows: (string | number)[][] = [
     ["類別代碼", "分類名稱", "欄位R(施工內容)包含關鍵字", "欄位V(備註)包含關鍵字"],
   ];
   const codes = ["a", "b", "c", "d", "e", "f"];
   CATEGORY_RULES.forEach((rule, i) => {
-    appendixRows.push([codes[i], rule.category, rule.contentKeywords.join("、"), rule.noteKeywords.join("、") || "（無）"]);
+    rows.push([codes[i], rule.category, rule.contentKeywords.join("、"), rule.noteKeywords.join("、") || "（無）"]);
   });
-  appendixRows.push(["g", "其他", "未滿足上述 a~f 任一條件者", "自動歸類並列入待補齊提示清單"]);
-  XLSX.utils.book_append_sheet(wb, XLSX.utils.aoa_to_sheet(appendixRows), "分類關鍵字對照表(附錄)");
-
-  XLSX.writeFile(wb, filename);
+  rows.push(["g", "其他", "未滿足上述 a~f 任一條件者", "自動歸類並列入待補齊提示清單"]);
+  return rows;
 }
 
 export function exportUnclassifiedOnly(

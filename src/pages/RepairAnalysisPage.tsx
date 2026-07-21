@@ -1,9 +1,8 @@
 import { useState } from "react";
-import { RepairAppendixTable } from "../components/repair/RepairAppendixTable";
-import { RepairCategoryChart, RepairSourcePie } from "../components/repair/RepairCharts";
+import { RepairCategoryPie, RepairCategoryTable, RepairSourcePie } from "../components/repair/RepairCharts";
 import { RepairInputPanel } from "../components/repair/RepairInputPanel";
 import { UnclassifiedTable } from "../components/repair/UnclassifiedTable";
-import { exportRepairToExcel, exportUnclassifiedOnly } from "../lib/repair/exportRepair";
+import { exportAppendixToExcel, exportRepairToExcel, exportUnclassifiedOnly } from "../lib/repair/exportRepair";
 import { parseRepairFile } from "../lib/repair/parseRepair";
 import type { RepairAnalysisResult } from "../lib/repair/types";
 
@@ -48,6 +47,7 @@ export function RepairAnalysisPage() {
         onAnalyze={handleAnalyze}
         onExportUnclassified={() => result && exportUnclassifiedOnly(result)}
         onExportFull={() => result && exportRepairToExcel(result)}
+        onExportAppendix={() => exportAppendixToExcel()}
       />
 
       {errorMsg && <div className="alert alert-error">{errorMsg}</div>}
@@ -64,19 +64,21 @@ export function RepairAnalysisPage() {
           )}
 
           <section className="panel chart-panel">
-            <h2>通報來源結構占比</h2>
-            <div className="chart-grid">
+            <h2>通報來源結構占比 / 工單處置分類占比</h2>
+            <div className="chart-grid chart-grid-center">
               <RepairSourcePie summary={result.sourceSummary} />
+              <RepairCategoryPie summaries={result.categorySummaries} />
             </div>
           </section>
 
-          <RepairCategoryChart summaries={result.categorySummaries} />
+          <section className="panel">
+            <h2>工單處置分類明細</h2>
+            <RepairCategoryTable summaries={result.categorySummaries} />
+          </section>
 
           {showDetail && result.unclassifiedRows.length > 0 && (
             <UnclassifiedTable rows={result.unclassifiedRows} />
           )}
-
-          <RepairAppendixTable />
         </>
       )}
     </div>

@@ -9,6 +9,7 @@ interface Props {
   onAnalyze: () => void;
   onExportUnclassified: () => void;
   onExportFull: () => void;
+  onExportAppendix: () => void;
 }
 
 export function RepairInputPanel({
@@ -20,6 +21,7 @@ export function RepairInputPanel({
   onAnalyze,
   onExportUnclassified,
   onExportFull,
+  onExportAppendix,
 }: Props) {
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -60,6 +62,9 @@ export function RepairInputPanel({
         </button>
         <button type="button" className="btn btn-secondary" onClick={onExportFull} disabled={!canExportFull}>
           匯出完整分析報告.xlsx
+        </button>
+        <button type="button" className="btn btn-secondary" onClick={onExportAppendix}>
+          下載分類關鍵字對照表.xlsx
         </button>
       </div>
     </section>
