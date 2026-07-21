@@ -41,6 +41,10 @@ export async function runAudit(files: AuditFileSet): Promise<AuditResult> {
     複合異常: 0,
   };
 
+  // 分析當下的「現在」時間：若最近 24 小時內已針對該桿號重新開單，
+  // 代表問題已經有人在處理，就不再列為「已結案仍異常」
+  const now = Date.now();
+
   for (const row of streetlightIndex.abnormalRows) {
     abnormalByStatus[row.status]++;
     if (!whitelist.has(row.polesKey)) continue;
@@ -71,7 +75,9 @@ export async function runAudit(files: AuditFileSet): Promise<AuditResult> {
       tBase - HOURS_24_MS,
       tBase + HOURS_24_MS
     );
-    if (repairMatch !== null) flags.push("func2_closed_not_recovered");
+    const hasRecentOrder =
+      findInWindow((orderIndex as PoleTimeIndex).get(row.polesKey), now - HOURS_24_MS, now) !== null;
+    if (repairMatch !== null && !hasRecentOrder) flags.push("func2_closed_not_recovered");
 
     analyzedRows.push({
       polesKey: row.polesKey,
