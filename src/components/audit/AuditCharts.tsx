@@ -77,18 +77,19 @@ const PIE_CX = 96;
 const PIE_CY = 96;
 const PIE_SIZE = 192;
 
-// 總異常燈具數中，落在智能燈清冊（白名單）內 vs 不在清冊內的比例
-export function AuditCoveragePie({
+// 總異常燈具數中，應開單未開單（功能1）vs 其餘的比例
+// 分子分母跟 KPI 卡片「應開單未開單數（功能1）」下方的百分比使用同一個定義，兩者數字一致
+export function AuditFunc1Pie({
   totalAbnormalCount,
-  whitelistAbnormalCount,
+  func1Count,
 }: {
   totalAbnormalCount: number;
-  whitelistAbnormalCount: number;
+  func1Count: number;
 }) {
-  const outsideCount = Math.max(totalAbnormalCount - whitelistAbnormalCount, 0);
+  const restCount = Math.max(totalAbnormalCount - func1Count, 0);
   const data = [
-    { key: "inList", label: "清冊內", value: whitelistAbnormalCount, color: "var(--pie-inlist)" },
-    { key: "outsideList", label: "不在清冊內", value: outsideCount, color: "var(--pie-outlist)" },
+    { key: "func1", label: "應開單未開單", value: func1Count, color: "var(--pie-a)" },
+    { key: "rest", label: "其餘", value: restCount, color: "var(--pie-b)" },
   ].filter((d) => d.value > 0);
 
   const total = totalAbnormalCount;
@@ -115,8 +116,8 @@ export function AuditCoveragePie({
 
   return (
     <figure className="audit-chart">
-      <figcaption>總異常燈具數 × 清冊涵蓋範圍</figcaption>
-      <svg viewBox={`0 0 ${PIE_SIZE} ${PIE_SIZE}`} role="img" aria-label="總異常燈具數與清冊內異常燈具數的涵蓋比例圓餅圖">
+      <figcaption>總異常燈具數 × 應開單未開單佔比</figcaption>
+      <svg viewBox={`0 0 ${PIE_SIZE} ${PIE_SIZE}`} role="img" aria-label="總異常燈具數中應開單未開單的佔比圓餅圖">
         <g transform={`rotate(-90 ${PIE_CX} ${PIE_CY})`}>
           {total === 0 ? (
             <circle cx={PIE_CX} cy={PIE_CY} r={PIE_R} fill="none" stroke="var(--border)" strokeWidth={24} />

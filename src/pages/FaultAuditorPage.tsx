@@ -1,5 +1,5 @@
 import { useMemo, useState } from "react";
-import { AuditCoveragePie, AuditStatusBarChart } from "../components/audit/AuditCharts";
+import { AuditFunc1Pie, AuditStatusBarChart } from "../components/audit/AuditCharts";
 import { AuditInputPanel } from "../components/audit/AuditInputPanel";
 import { DetailTables } from "../components/audit/DetailTables";
 import { KpiDashboard } from "../components/audit/KpiDashboard";
@@ -73,9 +73,9 @@ export function FaultAuditorPage() {
           <section className="panel chart-panel">
             <div className="chart-grid">
               <AuditStatusBarChart counts={result.summary.abnormalByStatus} />
-              <AuditCoveragePie
+              <AuditFunc1Pie
                 totalAbnormalCount={result.summary.totalAbnormalCount}
-                whitelistAbnormalCount={result.summary.whitelistAbnormalCount}
+                func1Count={result.summary.func1Count}
               />
             </div>
           </section>

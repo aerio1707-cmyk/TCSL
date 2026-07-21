@@ -23,8 +23,8 @@
   --cat-3: #e87ba4;
 
   /* 圓餅圖：薄荷綠／琥珀橘對比配色 */
-  --pie-inlist: #e0902c;
-  --pie-outlist: #4fb8a6;
+  --pie-a: #e0902c;
+  --pie-b: #4fb8a6;
 
   --sans: system-ui, 'Segoe UI', Roboto, sans-serif;
   --heading: system-ui, 'Segoe UI', Roboto, sans-serif;
@@ -63,8 +63,8 @@
     --cat-2: #6f93b8;
     --cat-3: #d55181;
 
-    --pie-inlist: #eaa34c;
-    --pie-outlist: #62c4b3;
+    --pie-a: #eaa34c;
+    --pie-b: #62c4b3;
   }
 
   #social .button-icon {
