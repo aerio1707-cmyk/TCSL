@@ -9,13 +9,15 @@ import {
 import type { AbnormalStatus, AnalyzedRow, AuditFlag, AuditResult, SuspendedRow } from "./types";
 import type { AuditFileSet } from "./collectAuditFiles";
 
-// 在桿號自己的時間清單中找是否存在落在 [from, to] 區間內的紀錄（同一桿號紀錄通常不多，線性掃描即可）
+// 在桿號自己的時間清單中找落在 [from, to] 區間內、時間最新的一筆紀錄
+// （同一桿號可能有多筆落在區間內，例如多次開單／報修，要以最新一筆為準；同一桿號紀錄通常不多，線性掃描即可）
 function findInWindow(times: number[] | undefined, from: number, to: number): number | null {
   if (!times) return null;
+  let latest: number | null = null;
   for (const t of times) {
-    if (t >= from && t <= to) return t;
+    if (t >= from && t <= to && (latest === null || t > latest)) latest = t;
   }
-  return null;
+  return latest;
 }
 
 export async function runAudit(files: AuditFileSet): Promise<AuditResult> {
