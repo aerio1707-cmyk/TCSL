@@ -2,12 +2,14 @@ import { useState } from "react";
 import "./App.css";
 import { ControllerTrackerPage } from "./pages/ControllerTrackerPage";
 import { FaultAuditorPage } from "./pages/FaultAuditorPage";
+import { RepairAnalysisPage } from "./pages/RepairAnalysisPage";
 
-type Tab = "tracker" | "audit";
+type Tab = "tracker" | "audit" | "repair";
 
 const TABS: { id: Tab; label: string }[] = [
   { id: "tracker", label: "控制器異動追蹤" },
   { id: "audit", label: "異常暨工單比對稽核" },
+  { id: "repair", label: "維修案件分析" },
 ];
 
 function App() {
@@ -31,7 +33,9 @@ function App() {
         </nav>
       </header>
 
-      {tab === "tracker" ? <ControllerTrackerPage /> : <FaultAuditorPage />}
+      {tab === "tracker" && <ControllerTrackerPage />}
+      {tab === "audit" && <FaultAuditorPage />}
+      {tab === "repair" && <RepairAnalysisPage />}
     </div>
   );
 }

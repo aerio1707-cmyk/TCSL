@@ -26,6 +26,15 @@
   --pie-a: #e0902c;
   --pie-b: #4fb8a6;
 
+  /* 維修案件分析：施工分類 7 色（已用 dataviz 色票驗證器過 CVD 檢查） */
+  --repair-cat-1: #2a78d6;
+  --repair-cat-2: #008300;
+  --repair-cat-3: #e87ba4;
+  --repair-cat-4: #eda100;
+  --repair-cat-5: #1baf7a;
+  --repair-cat-6: #eb6834;
+  --repair-cat-7: #4a3aa7;
+
   --sans: system-ui, 'Segoe UI', Roboto, sans-serif;
   --heading: system-ui, 'Segoe UI', Roboto, sans-serif;
   --mono: ui-monospace, Consolas, monospace;
@@ -65,6 +74,14 @@
 
     --pie-a: #eaa34c;
     --pie-b: #62c4b3;
+
+    --repair-cat-1: #3987e5;
+    --repair-cat-2: #008300;
+    --repair-cat-3: #d55181;
+    --repair-cat-4: #c98500;
+    --repair-cat-5: #199e70;
+    --repair-cat-6: #d95926;
+    --repair-cat-7: #9085e9;
   }
 
   #social .button-icon {
