@@ -25,7 +25,7 @@ export function ControllerTrackerPage() {
     const first = files[0] as File & { webkitRelativePath?: string };
     const rootName = first.webkitRelativePath?.split("/")[0] ?? "已選取資料夾";
     setFolderLabel(rootName);
-    const reportCount = Array.from(files).filter((f) => /\.(csv|xlsx)$/i.test(f.name)).length;
+    const reportCount = Array.from(files).filter((f) => /\.csv$/i.test(f.name)).length;
     setReportFileCount(reportCount);
     setTimelines(null);
     setErrorMsg(null);
@@ -41,7 +41,7 @@ export function ControllerTrackerPage() {
     try {
       const reportFiles = await collectReportFiles(fileList);
       if (reportFiles.length === 0) {
-        setErrorMsg("在此資料夾中找不到任何 .xlsx 或 .csv 報表檔案。");
+        setErrorMsg("在此資料夾中找不到任何 .csv 報表檔案。");
         setTimelines(null);
         return;
       }

@@ -18,22 +18,18 @@ function extractFilenameTimeMs(filename: string, dateIso: string): number | null
 }
 
 function isSupportedReport(filename: string): boolean {
-  return /\.(csv|xlsx)$/i.test(filename) && !filename.startsWith("~$");
+  return /\.csv$/i.test(filename);
 }
 
 async function resolveFile(file: File, relativePath: string): Promise<ReportFile> {
-  const isCsv = /\.csv$/i.test(file.name);
-
   let date: string | null = null;
   let dateSource: ReportFile["dateSource"] = "mtime";
 
-  if (isCsv) {
-    const head = await file.text();
-    const tagDate = resolveDateFromCsvText(head);
-    if (tagDate) {
-      date = tagDate;
-      dateSource = "csv-tag";
-    }
+  const head = await file.text();
+  const tagDate = resolveDateFromCsvText(head);
+  if (tagDate) {
+    date = tagDate;
+    dateSource = "csv-tag";
   }
 
   if (!date) {

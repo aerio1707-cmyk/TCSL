@@ -1,5 +1,4 @@
 // 產生假的測試資料（不含任何真實座標/IMEI/地址），僅供本機開發測試用
-import * as XLSX from "xlsx";
 import { mkdirSync, writeFileSync } from "node:fs";
 import { join, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
@@ -39,23 +38,6 @@ function poleRows(dateKey) {
   ];
 }
 
-function writeXlsx(dateKey, folder, filename) {
-  const rows = poleRows(dateKey);
-  const wb = XLSX.utils.book_new();
-
-  const overview = XLSX.utils.aoa_to_sheet([["date", dateKey], ["Log", "sample"]]);
-  XLSX.utils.book_append_sheet(wb, overview, "連線率");
-
-  const small = XLSX.utils.aoa_to_sheet([HEADER, ...rows.slice(0, 1)]);
-  XLSX.utils.book_append_sheet(wb, small, "Receive<10");
-
-  const full = XLSX.utils.aoa_to_sheet([HEADER, ...rows]);
-  XLSX.utils.book_append_sheet(wb, full, "Receive≠0");
-
-  mkdirSync(folder, { recursive: true });
-  XLSX.writeFile(wb, join(folder, filename));
-}
-
 // 正式報表其實是「摘要區塊」與「明細區塊」兩段各自匯出的 CSV 拼接而成，
 // 每段各自帶有 UTF-8 BOM；明細表頭列前的第二個 BOM 正是導致表頭解析失敗的真實成因，
 // 這裡如實重現這個結構，避免測試資料失真而讓 bug 再次被掩蓋。
@@ -86,11 +68,11 @@ function writeCsv(dateKey, folder, filename) {
 }
 
 const juneDir = join(ROOT, "202606");
-writeXlsx("2026-06-09", juneDir, "0609 DailyReport.xlsx");
-writeXlsx("2026-06-10", juneDir, "0610 DailyReport.xlsx");
-writeXlsx("2026-06-11", juneDir, "0611 DailyReport.xlsx");
-writeXlsx("2026-06-12", juneDir, "0612 DailyReport.xlsx");
-writeXlsx("2026-06-16", juneDir, "0616 DailyReport.xlsx");
+writeCsv("2026-06-09", juneDir, "EssReport_20260609.csv");
+writeCsv("2026-06-10", juneDir, "EssReport_20260610.csv");
+writeCsv("2026-06-11", juneDir, "EssReport_20260611.csv");
+writeCsv("2026-06-12", juneDir, "EssReport_20260612.csv");
+writeCsv("2026-06-16", juneDir, "EssReport_20260616.csv");
 
 const julyDir = join(ROOT, "202607");
 writeCsv("2026-07-10", julyDir, "EssReport_20260710.csv");

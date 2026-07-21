@@ -42,14 +42,13 @@ export function exportTimelinesToExcel(
     for (const e of [...t.entries].reverse()) {
       const detail =
         e.status === "changed" ? `${e.prevControllerId} ➔ ${e.controllerId}` : "-";
-      const source = [e.sourceFile, e.sourceSheet].filter(Boolean).join(" / ");
       detailRows.push([
         e.date,
         e.polesId,
         e.controllerId ?? "(無紀錄)",
         STATUS_LABEL[e.status],
         detail,
-        source || e.note,
+        e.sourceFile ?? e.note,
       ]);
     }
   }

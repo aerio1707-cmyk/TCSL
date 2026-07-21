@@ -3,7 +3,6 @@ export interface ControllerRecord {
   polesId: string;
   controllerId: string;
   sourceFile: string; // 相對路徑
-  sourceSheet?: string; // xlsx 才有
 }
 
 // 掃描到的原始報表檔案（尚未解析內容，先做日期歸類與同日競爭）
@@ -26,7 +25,6 @@ export interface DayEntry {
   prevControllerId?: string; // status === "changed" 時才有
   note: string; // 說明文字
   sourceFile?: string;
-  sourceSheet?: string;
 }
 
 // 精簡日誌：把連續同狀態(且值相同)的日期壓成一個區間

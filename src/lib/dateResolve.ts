@@ -23,7 +23,7 @@ export function resolveDateFromCsvText(text: string): string | null {
   return null;
 }
 
-// 優先層級 2：檔名內的 8 碼日期(YYYYMMDD)，或「檔名 4 碼 MMDD」+「父層路徑 6 碼 YYYYMM」組合
+// 優先層級 2：檔名內的 8 碼日期(YYYYMMDD)，如 EssReport_20260719.csv
 export function resolveDateFromPath(relativePath: string): string | null {
   const segments = relativePath.split(/[/\\]/);
   const filename = segments[segments.length - 1];
@@ -32,19 +32,6 @@ export function resolveDateFromPath(relativePath: string): string | null {
   if (eightDigit) {
     const iso = toIso(eightDigit[1], eightDigit[2], eightDigit[3]);
     if (iso) return iso;
-  }
-
-  const mmdd = filename.match(/(?:^|[^\d])(\d{2})(\d{2})(?:[^\d]|$)/);
-  if (mmdd) {
-    for (let i = segments.length - 2; i >= 0; i--) {
-      const yyyymm = segments[i].match(/^(\d{4})(\d{2})$/);
-      if (yyyymm) {
-        const iso = toIso(yyyymm[1], yyyymm[2], mmdd[2] ? mmdd[2] : mmdd[1]);
-        // mmdd 群組是 (MM)(DD)
-        const isoCorrect = toIso(yyyymm[1], mmdd[1], mmdd[2]);
-        return isoCorrect ?? iso;
-      }
-    }
   }
   return null;
 }

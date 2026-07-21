@@ -90,7 +90,7 @@ export function TimelinePanel({ timeline }: Props) {
                         : "初始紀錄"}
                 </td>
                 <td>{e.status === "changed" ? `${e.prevControllerId} ➔ ${e.controllerId}` : "-"}</td>
-                <td>{e.sourceFile ? `${e.sourceFile}${e.sourceSheet ? ` (${e.sourceSheet})` : ""}` : e.note}</td>
+                <td>{e.sourceFile ?? e.note}</td>
               </tr>
             ))}
           </tbody>

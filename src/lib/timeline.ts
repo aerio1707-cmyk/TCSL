@@ -123,16 +123,15 @@ export async function buildTimelines(
         });
         continue;
       }
-      const found = index!.get(keyByPole.get(poleId)!);
-      if (found) {
+      const controllerId = index!.get(keyByPole.get(poleId)!);
+      if (controllerId) {
         list.push({
           date,
           polesId: poleId,
-          controllerId: found.controllerId,
+          controllerId,
           status: "unchanged",
           note: "",
           sourceFile: rf.relativePath,
-          sourceSheet: found.sheetName,
         });
       } else {
         list.push({
