@@ -18,6 +18,11 @@
   --status-critical: #d03b3b;
   --chart-muted: #898781;
 
+  /* 稽核圖表分類色（依主題切換） */
+  --cat-1: #2a78d6;
+  --cat-2: #008300;
+  --cat-3: #e87ba4;
+
   --sans: system-ui, 'Segoe UI', Roboto, sans-serif;
   --heading: system-ui, 'Segoe UI', Roboto, sans-serif;
   --mono: ui-monospace, Consolas, monospace;
@@ -50,6 +55,10 @@
     --social-bg: rgba(47, 48, 58, 0.5);
     --shadow:
       rgba(0, 0, 0, 0.4) 0 10px 15px -3px, rgba(0, 0, 0, 0.25) 0 4px 6px -2px;
+
+    --cat-1: #3987e5;
+    --cat-2: #008300;
+    --cat-3: #d55181;
   }
 
   #social .button-icon {

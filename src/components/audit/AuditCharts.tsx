@@ -1,6 +1,7 @@
 import type { AbnormalStatus } from "../../lib/audit/types";
 
 const STATUS_TYPES: AbnormalStatus[] = ["控制器異常", "燈具異常", "複合異常"];
+const STATUS_COLORS = ["var(--cat-1)", "var(--cat-2)", "var(--cat-3)"];
 
 const CHART_W = 560;
 const CHART_H = 260;
@@ -41,15 +42,14 @@ export function AuditStatusBarChart({ counts }: { counts: Record<AbnormalStatus,
             const barX = cx - BAR_W / 2;
             const y = yScale(value);
             const h = plotH - y;
+            const color = STATUS_COLORS[i];
 
             return (
               <g key={status}>
                 {value > 0 && (
                   <>
-                    <rect x={barX} y={y} width={BAR_W} height={Math.max(h, 0.0001)} fill="var(--accent)" rx={4} ry={4} />
-                    {h > 4 && (
-                      <rect x={barX} y={y + Math.min(4, h)} width={BAR_W} height={Math.max(h - 4, 0)} fill="var(--accent)" />
-                    )}
+                    <rect x={barX} y={y} width={BAR_W} height={Math.max(h, 0.0001)} fill={color} rx={4} ry={4} />
+                    {h > 4 && <rect x={barX} y={y + Math.min(4, h)} width={BAR_W} height={Math.max(h - 4, 0)} fill={color} />}
                     <title>
                       {status} · {value} 筆
                     </title>
@@ -87,13 +87,31 @@ export function AuditCoveragePie({
 }) {
   const outsideCount = Math.max(totalAbnormalCount - whitelistAbnormalCount, 0);
   const data = [
-    { key: "inList", label: "清冊內", value: whitelistAbnormalCount, color: "var(--accent)" },
+    { key: "inList", label: "清冊內", value: whitelistAbnormalCount, color: "var(--cat-1)" },
     { key: "outsideList", label: "不在清冊內", value: outsideCount, color: "var(--chart-muted)" },
   ].filter((d) => d.value > 0);
 
   const total = totalAbnormalCount;
   const circumference = 2 * Math.PI * PIE_R;
   let offsetAccum = 0;
+
+  // 色塊中間標示百分比：換算成「未旋轉座標系」下的角度，文字才不會跟著圓弧一起轉向
+  const MIN_LABEL_FRACTION = 0.08; // 太窄的色塊放不下文字，交給圖例呈現即可
+  const labels = data.map((d) => {
+    const frac = d.value / total;
+    const startFrac = offsetAccum / circumference;
+    const midFrac = startFrac + frac / 2;
+    offsetAccum += frac * circumference;
+    const angleRad = ((midFrac * 360 - 90) * Math.PI) / 180;
+    return {
+      key: d.key,
+      pct: (frac * 100).toFixed(1),
+      show: frac >= MIN_LABEL_FRACTION,
+      x: PIE_CX + PIE_R * Math.cos(angleRad),
+      y: PIE_CY + PIE_R * Math.sin(angleRad),
+    };
+  });
+  offsetAccum = 0;
 
   return (
     <figure className="audit-chart">
@@ -129,6 +147,13 @@ export function AuditCoveragePie({
             })
           )}
         </g>
+        {labels
+          .filter((l) => l.show)
+          .map((l) => (
+            <text key={l.key} x={l.x} y={l.y} textAnchor="middle" dominantBaseline="middle" className="chart-pie-label">
+              {l.pct}%
+            </text>
+          ))}
         <text x={PIE_CX} y={PIE_CY - 6} textAnchor="middle" className="chart-donut-value">
           {total}
         </text>

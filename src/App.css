@@ -423,6 +423,11 @@
   font-weight: 600;
   fill: var(--text-h);
 }
+.chart-pie-label {
+  font-size: 13px;
+  font-weight: 600;
+  fill: #0b0b0b; /* 色塊上的固定深色文字，不隨主題切換（對兩種色塊背景色的對比都最佳） */
+}
 .chart-legend {
   list-style: none;
   margin: 12px 0 0;
