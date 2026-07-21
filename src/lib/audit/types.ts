@@ -23,13 +23,14 @@ export interface SuspendedRow {
 
 export interface AuditSummary {
   totalStreetlightRows: number;
-  whitelistAbnormalCount: number; // 白名單內異常燈具數（含暫停停用）
+  totalAbnormalCount: number; // 總異常燈具數（不限清冊，全部異常狀態筆數）
+  abnormalByStatus: Record<AbnormalStatus, number>; // 總異常燈具數依三種類型拆分
+  whitelistAbnormalCount: number; // 清冊內異常燈具數量（含暫停停用）
   suspendedCount: number; // 暫停停用（last_receive_time 為空）
   analyzedCount: number; // 實際進入功能1/2判斷的筆數
   func1Count: number; // 應開單未開單
   func2Count: number; // 已結案仍異常
-  func1Rate: number; // 0~1
-  func2Rate: number; // 0~1
+  func1Rate: number; // 應開單未開單數 ÷ 總異常燈具數
 }
 
 export interface AuditResult {

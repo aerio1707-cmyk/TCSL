@@ -1,5 +1,5 @@
 import { useMemo, useState } from "react";
-import { AuditCompliancePie, AuditStackedBarChart } from "../components/audit/AuditCharts";
+import { AuditCoveragePie, AuditStatusBarChart } from "../components/audit/AuditCharts";
 import { AuditInputPanel } from "../components/audit/AuditInputPanel";
 import { DetailTables } from "../components/audit/DetailTables";
 import { KpiDashboard } from "../components/audit/KpiDashboard";
@@ -51,12 +51,6 @@ export function FaultAuditorPage() {
     () => (result ? result.analyzedRows.filter((r) => r.flags.includes("func2_closed_not_recovered")) : []),
     [result]
   );
-  const violationCount = useMemo(
-    () => (result ? result.analyzedRows.filter((r) => r.flags.length > 0).length : 0),
-    [result]
-  );
-  const normalCount = result ? result.analyzedRows.length - violationCount : 0;
-
   return (
     <div className="page-shell">
       <AuditInputPanel
@@ -78,11 +72,10 @@ export function FaultAuditorPage() {
 
           <section className="panel chart-panel">
             <div className="chart-grid">
-              <AuditStackedBarChart rows={result.analyzedRows} />
-              <AuditCompliancePie
-                normalCount={normalCount}
-                violationCount={violationCount}
-                suspendedCount={result.summary.suspendedCount}
+              <AuditStatusBarChart counts={result.summary.abnormalByStatus} />
+              <AuditCoveragePie
+                totalAbnormalCount={result.summary.totalAbnormalCount}
+                whitelistAbnormalCount={result.summary.whitelistAbnormalCount}
               />
             </div>
           </section>

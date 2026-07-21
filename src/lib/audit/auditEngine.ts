@@ -6,7 +6,7 @@ import {
   parseWhitelistFile,
   type PoleTimeIndex,
 } from "./parseAuditFiles";
-import type { AnalyzedRow, AuditFlag, AuditResult, SuspendedRow } from "./types";
+import type { AbnormalStatus, AnalyzedRow, AuditFlag, AuditResult, SuspendedRow } from "./types";
 import type { AuditFileSet } from "./collectAuditFiles";
 
 // 在桿號自己的時間清單中找是否存在落在 [from, to] 區間內的紀錄（同一桿號紀錄通常不多，線性掃描即可）
@@ -33,8 +33,14 @@ export async function runAudit(files: AuditFileSet): Promise<AuditResult> {
   const analyzedRows: AnalyzedRow[] = [];
   const suspendedRows: SuspendedRow[] = [];
   let whitelistAbnormalCount = 0;
+  const abnormalByStatus: Record<AbnormalStatus, number> = {
+    控制器異常: 0,
+    燈具異常: 0,
+    複合異常: 0,
+  };
 
   for (const row of streetlightIndex.abnormalRows) {
+    abnormalByStatus[row.status]++;
     if (!whitelist.has(row.polesKey)) continue;
     whitelistAbnormalCount++;
 
@@ -81,17 +87,19 @@ export async function runAudit(files: AuditFileSet): Promise<AuditResult> {
   const func1Count = analyzedRows.filter((r) => r.flags.includes("func1_missing_order")).length;
   const func2Count = analyzedRows.filter((r) => r.flags.includes("func2_closed_not_recovered")).length;
   const analyzedCount = analyzedRows.length;
+  const totalAbnormalCount = streetlightIndex.abnormalRows.length;
 
   return {
     summary: {
       totalStreetlightRows: streetlightIndex.totalRows,
+      totalAbnormalCount,
+      abnormalByStatus,
       whitelistAbnormalCount,
       suspendedCount: suspendedRows.length,
       analyzedCount,
       func1Count,
       func2Count,
-      func1Rate: analyzedCount > 0 ? func1Count / analyzedCount : 0,
-      func2Rate: analyzedCount > 0 ? func2Count / analyzedCount : 0,
+      func1Rate: totalAbnormalCount > 0 ? func1Count / totalAbnormalCount : 0,
     },
     analyzedRows,
     suspendedRows,

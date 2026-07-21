@@ -7,18 +7,17 @@ function pct(v: number): string {
 export function KpiDashboard({ summary }: { summary: AuditSummary }) {
   const tiles = [
     { label: "總檢測燈具數", value: summary.totalStreetlightRows.toLocaleString() },
-    { label: "白名單內異常燈具數", value: summary.whitelistAbnormalCount.toLocaleString() },
-    { label: "暫停停用燈具數", value: summary.suspendedCount.toLocaleString() },
+    { label: "總異常燈具數", value: summary.totalAbnormalCount.toLocaleString() },
+    { label: "清冊內異常燈具數量", value: summary.whitelistAbnormalCount.toLocaleString() },
     {
       label: "應開單未開單數（功能1）",
       value: summary.func1Count.toLocaleString(),
-      sub: `未開率 ${pct(summary.func1Rate)}`,
+      sub: `占總異常燈具數 ${pct(summary.func1Rate)}`,
       tone: summary.func1Count > 0 ? "warning" : undefined,
     },
     {
       label: "已結案仍異常數（功能2）",
       value: summary.func2Count.toLocaleString(),
-      sub: `異常結案率 ${pct(summary.func2Rate)}`,
       tone: summary.func2Count > 0 ? "serious" : undefined,
     },
   ];

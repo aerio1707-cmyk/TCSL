@@ -19,6 +19,13 @@ const SLOTS: { key: keyof AuditFileSet; label: string }[] = [
   { key: "repair", label: "報修清單 (報修清單匯出.xlsx)" },
 ];
 
+const HELP_ITEMS = [
+  { name: "控制器狀態", rule: "Streetlight_YYYYMMDDHHMMSS.csv（若資料夾內有多份，自動取時間戳記最新的一份）" },
+  { name: "白名單／清冊", rule: "智能燈清冊.xlsx（固定檔名）" },
+  { name: "開單紀錄", rule: "Info_Order.csv（固定檔名）" },
+  { name: "報修清單", rule: "報修清單匯出.xlsx（固定檔名）" },
+];
+
 export function AuditInputPanel({
   fileSet,
   onFolderSelected,
@@ -67,7 +74,7 @@ export function AuditInputPanel({
         </div>
       </div>
 
-      {fileSet && (
+      {fileSet ? (
         <div className="file-slot-list">
           {SLOTS.map((s) => {
             const file = fileSet[s.key] as File | null;
@@ -86,6 +93,18 @@ export function AuditInputPanel({
               </div>
             );
           })}
+        </div>
+      ) : (
+        <div className="input-help">
+          <div className="input-help-title">選擇的資料夾內需包含以下 4 個檔案：</div>
+          <ul className="input-help-list">
+            {HELP_ITEMS.map((item) => (
+              <li key={item.name}>
+                <span className="input-help-name">{item.name}</span>
+                <span className="input-help-rule">{item.rule}</span>
+              </li>
+            ))}
+          </ul>
         </div>
       )}
 
