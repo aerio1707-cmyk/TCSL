@@ -16,12 +16,15 @@
   --status-warning: #fab219;
   --status-serious: #ec835a;
   --status-critical: #d03b3b;
-  --chart-muted: #898781;
 
   /* 稽核圖表分類色（依主題切換） */
-  --cat-1: #2a78d6;
+  --cat-1: #0abab5; /* 蒂芬妮藍 */
   --cat-2: #008300;
   --cat-3: #e87ba4;
+
+  /* 圓餅圖：北歐風霧藍／陶土橘對比配色 */
+  --pie-inlist: #6e8fab;
+  --pie-outlist: #c98a6b;
 
   --sans: system-ui, 'Segoe UI', Roboto, sans-serif;
   --heading: system-ui, 'Segoe UI', Roboto, sans-serif;
@@ -56,9 +59,12 @@
     --shadow:
       rgba(0, 0, 0, 0.4) 0 10px 15px -3px, rgba(0, 0, 0, 0.25) 0 4px 6px -2px;
 
-    --cat-1: #3987e5;
+    --cat-1: #1dcec8;
     --cat-2: #008300;
     --cat-3: #d55181;
+
+    --pie-inlist: #8ca9c2;
+    --pie-outlist: #d9a183;
   }
 
   #social .button-icon {

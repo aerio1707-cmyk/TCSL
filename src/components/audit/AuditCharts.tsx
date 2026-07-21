@@ -87,8 +87,8 @@ export function AuditCoveragePie({
 }) {
   const outsideCount = Math.max(totalAbnormalCount - whitelistAbnormalCount, 0);
   const data = [
-    { key: "inList", label: "清冊內", value: whitelistAbnormalCount, color: "var(--cat-1)" },
-    { key: "outsideList", label: "不在清冊內", value: outsideCount, color: "var(--chart-muted)" },
+    { key: "inList", label: "清冊內", value: whitelistAbnormalCount, color: "var(--pie-inlist)" },
+    { key: "outsideList", label: "不在清冊內", value: outsideCount, color: "var(--pie-outlist)" },
   ].filter((d) => d.value > 0);
 
   const total = totalAbnormalCount;
