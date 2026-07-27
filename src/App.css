@@ -135,6 +135,11 @@
   gap: 12px;
   flex-wrap: wrap;
 }
+.alert-info {
+  background: rgba(37, 99, 235, 0.1);
+  color: #2563eb;
+  border: 1px solid rgba(37, 99, 235, 0.3);
+}
 .btn-inline {
   margin-left: auto;
 }
