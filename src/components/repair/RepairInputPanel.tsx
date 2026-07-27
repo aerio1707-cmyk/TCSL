@@ -61,8 +61,7 @@ export function RepairInputPanel({
           <li>
             <span className="input-help-name">來源位置</span>
             <span className="input-help-rule">
-              桌面\Report\，檔名為「維修案件匯出.xlsx」，隨時間增加會依 Windows 命名規則變成「維修案件匯出
-              (1).xlsx」「維修案件匯出 (2).xlsx」…
+              檔名為「維修案件匯出.xlsx」「維修案件匯出 (1).xlsx」「維修案件匯出 (2).xlsx」依此類推
             </span>
           </li>
           <li>
