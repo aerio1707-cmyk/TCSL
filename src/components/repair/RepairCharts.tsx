@@ -125,38 +125,7 @@ const CATEGORY_COLORS: Record<string, string> = {
   其他: "var(--repair-cat-7)",
 };
 
-// 圖表2 前半：工單處置分類樞紐摘要表
-export function RepairCategoryTable({ summaries }: { summaries: CategorySummary[] }) {
-  return (
-    <div className="pivot-table-wrap">
-      <table className="log-table pivot-table">
-        <thead>
-          <tr>
-            <th>列標籤</th>
-            <th>計數 - 案件編號</th>
-          </tr>
-        </thead>
-        <tbody>
-          {summaries.map((s) => (
-            <tr key={s.category}>
-              <td>
-                <span className="legend-swatch" style={{ background: CATEGORY_COLORS[s.category] }} />
-                {s.category}
-              </td>
-              <td>{(s.ratio * 100).toFixed(2)}%</td>
-            </tr>
-          ))}
-          <tr className="pivot-total-row">
-            <td>總計</td>
-            <td>100.00%</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-  );
-}
-
-// 圖表2 後半：類別占比圓餅圖（佔比以篩選後承商自主通報＋自主API筆數為分母）
+// 圖表2：類別占比圓餅圖（佔比以篩選後承商自主通報＋自主API筆數為分母）
 export function RepairCategoryPie({ summaries }: { summaries: CategorySummary[] }) {
   const total = summaries.reduce((sum, s) => sum + s.count, 0);
   const data: PieDatum[] = summaries.map((s) => ({

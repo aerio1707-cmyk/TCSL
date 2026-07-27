@@ -1,10 +1,5 @@
 import { useState } from "react";
-import {
-  RepairCategoryPie,
-  RepairCategoryTable,
-  RepairCoreCategoryPie,
-  RepairSourcePie,
-} from "../components/repair/RepairCharts";
+import { RepairCategoryPie, RepairCoreCategoryPie, RepairSourcePie } from "../components/repair/RepairCharts";
 import { RepairInputPanel } from "../components/repair/RepairInputPanel";
 import { UnclassifiedTable } from "../components/repair/UnclassifiedTable";
 import { exportAppendixToExcel, exportRepairToExcel, exportUnclassifiedOnly } from "../lib/repair/exportRepair";
@@ -74,11 +69,6 @@ export function RepairAnalysisPage() {
               <RepairCategoryPie summaries={result.categorySummaries} />
               <RepairCoreCategoryPie summaries={result.categorySummaries} />
             </div>
-          </section>
-
-          <section className="panel detail-panel">
-            <h2>工單處置分類明細</h2>
-            <RepairCategoryTable summaries={result.categorySummaries} />
           </section>
 
           {showDetail && result.unclassifiedRows.length > 0 && (
