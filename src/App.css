@@ -466,9 +466,14 @@
   justify-content: center;
 }
 .chart-compact {
-  flex: 0 1 300px;
-  max-width: 300px;
-  min-width: 240px;
+  flex: 0 1 330px;
+  max-width: 330px;
+  min-width: 260px;
+}
+.pivot-card {
+  flex: 0 1 230px;
+  max-width: 230px;
+  min-width: 200px;
 }
 .pivot-card .pivot-table-wrap {
   margin-bottom: 0;
@@ -483,7 +488,7 @@
   margin-bottom: 16px;
 }
 .pivot-table {
-  min-width: 240px;
+  min-width: 200px;
 }
 .pivot-table td:nth-child(2) {
   text-align: right;
