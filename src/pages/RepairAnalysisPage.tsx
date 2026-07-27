@@ -64,7 +64,7 @@ export function RepairAnalysisPage() {
           )}
 
           <section className="panel chart-panel">
-            <div className="chart-grid chart-grid-center">
+            <div className="chart-grid chart-grid-spaced">
               <RepairSourcePie summary={result.sourceSummary} />
               <RepairCategoryPie summaries={result.categorySummaries} />
               <figure className="audit-chart chart-compact pivot-card">

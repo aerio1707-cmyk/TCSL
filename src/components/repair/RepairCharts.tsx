@@ -93,7 +93,7 @@ function Legend({ data, total }: { data: PieDatum[]; total: number }) {
         .map((d) => (
           <li key={d.key}>
             <span className="legend-swatch" style={{ background: d.color }} />
-            {d.label}（{d.value}，{total > 0 ? ((d.value / total) * 100).toFixed(2) : "0"}%）
+            {d.label}（{d.value}件，{total > 0 ? ((d.value / total) * 100).toFixed(2) : "0"}%）
           </li>
         ))}
     </ul>

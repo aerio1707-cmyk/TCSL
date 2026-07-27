@@ -465,6 +465,10 @@
 .chart-grid-center {
   justify-content: center;
 }
+.chart-grid-spaced {
+  justify-content: flex-start;
+  gap: 40px;
+}
 .chart-compact {
   flex: 0 1 330px;
   max-width: 330px;
