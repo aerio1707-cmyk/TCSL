@@ -64,16 +64,14 @@ export function RepairAnalysisPage() {
           )}
 
           <section className="panel chart-panel">
-            <h2>通報來源結構占比 / 工單處置分類占比</h2>
             <div className="chart-grid chart-grid-center">
               <RepairSourcePie summary={result.sourceSummary} />
               <RepairCategoryPie summaries={result.categorySummaries} />
+              <figure className="audit-chart chart-compact pivot-card">
+                <figcaption>工單處置分類明細</figcaption>
+                <RepairCategoryTable summaries={result.categorySummaries} />
+              </figure>
             </div>
-          </section>
-
-          <section className="panel">
-            <h2>工單處置分類明細</h2>
-            <RepairCategoryTable summaries={result.categorySummaries} />
           </section>
 
           {showDetail && result.unclassifiedRows.length > 0 && (
