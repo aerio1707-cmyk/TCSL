@@ -67,7 +67,7 @@ export function RepairAnalysisPage() {
             <div className="chart-grid chart-grid-spaced">
               <RepairSourcePie summary={result.sourceSummary} />
               <RepairCategoryPie summaries={result.categorySummaries} />
-              <figure className="audit-chart chart-compact pivot-card">
+              <figure className="audit-chart pivot-card">
                 <figcaption>工單處置分類明細</figcaption>
                 <RepairCategoryTable summaries={result.categorySummaries} />
               </figure>

@@ -108,7 +108,7 @@ export function RepairSourcePie({ summary }: { summary: SourceSummary }) {
   ];
   return (
     <figure className="audit-chart chart-compact">
-      <figcaption>通報來源結構占比</figcaption>
+      <figcaption>通報來源結構占比（共 {summary.totalCount} 筆）</figcaption>
       <PieChart data={data} total={summary.totalCount} centerLabel="全部工單" />
       <Legend data={data} total={summary.totalCount} />
     </figure>

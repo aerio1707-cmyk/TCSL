@@ -462,22 +462,26 @@
   flex: none;
 }
 
-.chart-grid-center {
-  justify-content: center;
-}
 .chart-grid-spaced {
-  justify-content: space-between;
-  gap: 40px;
+  justify-content: flex-start;
+  gap: 32px;
 }
 .chart-compact {
   flex: 0 1 330px;
   max-width: 330px;
   min-width: 260px;
 }
+.chart-compact:nth-child(2) {
+  border-left: 1px solid var(--border);
+  padding-left: 24px;
+}
 .pivot-card {
   flex: 0 1 230px;
   max-width: 230px;
   min-width: 200px;
+  margin-left: auto;
+  border-left: 1px solid var(--border);
+  padding-left: 24px;
 }
 .pivot-card .pivot-table-wrap {
   margin-bottom: 0;
