@@ -174,3 +174,25 @@ export function RepairCategoryPie({ summaries }: { summaries: CategorySummary[] 
     </figure>
   );
 }
+
+const CORE_CATEGORIES = ["燈具", "電源", "網路訊號", "智控器"] as const;
+
+// 圖表4：設備故障類別占比（僅燈具/電源/網路訊號/智控器四類，佔比以這四類加總為分母重新計算）
+export function RepairCoreCategoryPie({ summaries }: { summaries: CategorySummary[] }) {
+  const coreSummaries = summaries.filter((s) => (CORE_CATEGORIES as readonly string[]).includes(s.category));
+  const total = coreSummaries.reduce((sum, s) => sum + s.count, 0);
+  const data: PieDatum[] = coreSummaries.map((s) => ({
+    key: s.category,
+    label: s.category,
+    value: s.count,
+    color: CATEGORY_COLORS[s.category] ?? "var(--text)",
+  }));
+
+  return (
+    <figure className="audit-chart chart-compact">
+      <figcaption>設備故障類別占比（四類，共 {total} 筆）</figcaption>
+      <PieChart data={data} total={total} centerLabel="燈具/電源/訊號/智控器" />
+      <Legend data={data} total={total} />
+    </figure>
+  );
+}

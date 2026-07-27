@@ -467,23 +467,20 @@
   gap: 32px;
 }
 .chart-compact {
-  flex: 0 1 330px;
-  max-width: 330px;
-  min-width: 260px;
+  flex: 0 1 300px;
+  max-width: 300px;
+  min-width: 240px;
 }
-.chart-compact:nth-child(2) {
+.chart-compact:not(:first-child) {
   border-left: 1px solid var(--border);
   padding-left: 24px;
 }
-.pivot-card {
-  flex: 0 1 230px;
-  max-width: 230px;
-  min-width: 200px;
-  margin-left: auto;
-  border-left: 1px solid var(--border);
-  padding-left: 24px;
+
+.detail-panel {
+  width: fit-content;
+  max-width: 100%;
 }
-.pivot-card .pivot-table-wrap {
+.detail-panel .pivot-table-wrap {
   margin-bottom: 0;
 }
 
